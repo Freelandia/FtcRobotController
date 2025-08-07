@@ -4,9 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.vision.VisionPortal;
 
 @TeleOp
 public class SimpleTeleOp extends LinearOpMode {
+    private ColorDetector visionProcessor;
+    private VisionPortal visionPortal;
     double speedFactor = 0.5;
 
     @Override
@@ -22,7 +26,35 @@ public class SimpleTeleOp extends LinearOpMode {
         // See the note about this earlier on this page.
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        visionProcessor = new ColorDetector();
+        visionPortal = VisionPortal.easyCreateWithDefaults(
+                hardwareMap.get(WebcamName.class, "Webcam 1"), visionProcessor);
+
+        telemetry.addData("Identified", visionProcessor.getSelection());
+        telemetry.update();
+
         waitForStart();
+
+        int left = 0;
+        int middle = 0;
+        int right = 0;
+
+        for (int i = 0; i < 100; i++) {
+            if (visionProcessor.getSelection() == ColorDetector.Selected.LEFT) {
+                left++;
+            }
+            else if(visionProcessor.getSelection() == ColorDetector.Selected.MIDDLE) {
+                middle++;
+            }
+            else if (visionProcessor.getSelection() == ColorDetector.Selected.RIGHT) {
+                right++;
+            }
+        }
+
+        telemetry.addData("Left:", left);
+        telemetry.addData("Middle:", middle);
+        telemetry.addData("Right:", right);
+        telemetry.update();
 
         if (isStopRequested()) return;
 
