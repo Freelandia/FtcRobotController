@@ -5,7 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.VisionProcessor;
 
 @TeleOp
 public class SimpleTeleOp extends LinearOpMode {
@@ -32,6 +34,7 @@ public class SimpleTeleOp extends LinearOpMode {
 
         telemetry.addData("Identified", visionProcessor.getSelection());
         telemetry.update();
+
 
         waitForStart();
 
